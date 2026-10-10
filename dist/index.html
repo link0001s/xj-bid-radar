@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>新疆投标雷达｜建筑 · 装修 · 设计</title>
+  <meta name="description" content="面向哈密、喀什、乌鲁木齐的投标线索工作台，连接千里马、乙方宝、政采云。" />
+  <style>
+    :root {
+      --ink: #17222f;
+      --muted: #718092;
+      --line: #e8edf1;
+      --paper: #f6f8f7;
+      --white: #ffffff;
+      --green: #0d6b5d;
+      --green-deep: #064b43;
+      --lime: #b7d47a;
+      --orange: #dd7d43;
+      --blue: #3876a5;
+      --shadow: 0 16px 42px rgba(26, 52, 58, .08);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .shell { display: grid; grid-template-columns: 246px 1fr; min-height: 100vh; }
+    .sidebar { background: var(--green-deep); color: #eef7ee; padding: 26px 20px; display: flex; flex-direction: column; }
+    .brand { display: flex; gap: 12px; align-items: center; padding: 0 9px 34px; }
+    .brand-mark { width: 35px; height: 35px; border-radius: 12px; display: grid; place-items: center; background: var(--lime); color: var(--green-deep); font-weight: 900; font-size: 18px; }
+    .brand strong { display: block; font-size: 17px; letter-spacing: .04em; }
+    .brand small { display: block; color: #a8c9bf; margin-top: 3px; font-size: 11px; }
+    .nav-label { color: #7ea79e; font-size: 11px; letter-spacing: .15em; padding: 0 12px 9px; }
+    nav { display: grid; gap: 6px; }
+    nav button { background: transparent; border: 0; color: #b3cbc3; text-align: left; padding: 12px; border-radius: 10px; display: flex; gap: 11px; align-items: center; font-size: 13px; }
+    nav button:hover, nav button.active { background: rgba(183, 212, 122, .14); color: #f5f8ef; }
+    nav button.active { box-shadow: inset 3px 0 var(--lime); }
+    nav svg { width: 17px; height: 17px; opacity: .84; }
+    .sidebar-bottom { margin-top: auto; border-top: 1px solid rgba(255,255,255,.12); padding: 18px 10px 0; }
+    .sync { display: flex; align-items: center; gap: 7px; color: #b8d5cb; font-size: 11px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 4px rgba(183,212,122,.13); }
+    .sidebar-note { color: #7ea79e; font-size: 11px; line-height: 1.6; margin: 11px 0 0; }
+    main { padding: 30px 38px 50px; max-width: 1520px; width: 100%; margin: auto; }
+    .topbar { display: flex; justify-content: space-between; align-items: start; gap: 24px; margin-bottom: 28px; }
+    .eyebrow { color: var(--green); font-size: 11px; letter-spacing: .19em; font-weight: 800; }
+    h1 { margin: 7px 0 8px; font-size: 31px; letter-spacing: -.04em; font-weight: 750; }
+    .subtitle { color: var(--muted); font-size: 13px; margin: 0; }
+    .top-actions { display: flex; gap: 10px; align-items: center; }
+    .date-pill { background: #fff; border: 1px solid var(--line); padding: 10px 13px; color: var(--muted); font-size: 12px; border-radius: 10px; }
+    .primary { border: 0; border-radius: 10px; background: var(--green); color: #fff; padding: 11px 15px; font-size: 12px; box-shadow: 0 8px 15px rgba(13,107,93,.16); }
+    .primary:hover { background: var(--green-deep); }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 14px; margin-bottom: 22px; }
+    .stat { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 18px 19px; position: relative; overflow: hidden; }
+    .stat:after { content: ""; position: absolute; width: 70px; height: 70px; border-radius: 50%; right: -19px; top: -22px; background: rgba(183,212,122,.18); }
+    .stat .label { color: var(--muted); font-size: 11px; }
+    .stat .number { margin: 10px 0 4px; font-size: 29px; font-weight: 750; letter-spacing: -.04em; }
+    .stat .delta { color: var(--green); font-size: 11px; }
+    .workspace { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(280px, .8fr); gap: 22px; align-items: start; }
+    .panel { background: var(--white); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 8px 25px rgba(36, 65, 67, .035); }
+    .panel-head { padding: 19px 21px 16px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+    .panel-head h2 { margin: 0; font-size: 16px; letter-spacing: -.02em; }
+    .panel-head p { margin: 5px 0 0; color: var(--muted); font-size: 11px; }
+    .filterbar { display: flex; gap: 8px; padding: 14px 21px; background: #fbfcfc; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .filterbar input, .filterbar select { border: 1px solid #dfe7e7; color: var(--ink); background: #fff; border-radius: 8px; padding: 9px 10px; font-size: 12px; outline: none; }
+    .filterbar input { flex: 1; min-width: 180px; }
+    .filterbar input:focus, .filterbar select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(13,107,93,.08); }
+    .source-tabs { display: flex; gap: 6px; }
+    .source-tabs button { border: 1px solid #e2e8e7; border-radius: 7px; padding: 7px 9px; background: #fff; color: var(--muted); font-size: 11px; }
+    .source-tabs button.active { color: var(--green); background: #eef8f3; border-color: #cce5d5; }
+    .leads { padding: 8px 14px 14px; }
+    .lead { display: grid; grid-template-columns: 8px 1fr auto; gap: 14px; padding: 17px 8px; border-bottom: 1px solid #eef1f1; align-items: start; transition: background .16s; }
+    .lead:last-child { border-bottom: 0; }
+    .lead:hover { background: #fbfdfb; }
+    .lead-bar { width: 4px; min-height: 58px; border-radius: 4px; background: var(--lime); }
+    .lead-bar.high { background: var(--orange); }
+    .lead-title { font-size: 13px; font-weight: 700; line-height: 1.5; margin: 0 0 8px; }
+    .lead-meta { display: flex; gap: 9px; flex-wrap: wrap; color: var(--muted); font-size: 11px; align-items: center; }
+    .tag { background: #f0f4f2; color: #5c7071; padding: 4px 7px; border-radius: 5px; }
+    .tag.green { color: var(--green); background: #eaf5ed; }
+    .tag.orange { color: #a95727; background: #fff1e6; }
+    .lead-side { text-align: right; white-space: nowrap; }
+    .source { font-size: 11px; color: var(--green); font-weight: 700; }
+    .deadline { font-size: 11px; color: var(--muted); margin-top: 10px; }
+    .deadline strong { color: var(--orange); font-size: 14px; margin-right: 3px; }
+    .empty { text-align: center; color: var(--muted); font-size: 12px; padding: 42px 0; }
+    .right-col { display: grid; gap: 18px; }
+    .brief { padding: 20px 21px; background: linear-gradient(135deg, #0d6b5d, #155b53); color: #e8f4e9; border-radius: 16px; position: relative; overflow: hidden; }
+    .brief:before { content: ""; width: 150px; height: 150px; border: 1px solid rgba(183,212,122,.28); border-radius: 50%; position: absolute; right: -44px; top: -52px; }
+    .brief .mini-label { color: #b8d69f; font-size: 11px; letter-spacing: .16em; }
+    .brief h3 { font-size: 20px; margin: 12px 0 8px; letter-spacing: -.03em; }
+    .brief p { color: #bcd4cb; font-size: 12px; line-height: 1.6; margin: 0; }
+    .brief .brief-row { display: flex; justify-content: space-between; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(255,255,255,.14); font-size: 11px; }
+    .brief strong { color: #fff; font-size: 15px; }
+    .platforms { padding: 19px 21px; }
+    .platforms h3, .focus h3, .steps h3 { margin: 0 0 14px; font-size: 14px; }
+    .platform { display: flex; align-items: center; gap: 11px; padding: 11px 0; border-bottom: 1px solid #eef1f1; }
+    .platform:last-child { border: 0; padding-bottom: 0; }
+    .platform-icon { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; font-size: 11px; font-weight: 800; }
+    .platform-icon.q { background: #e8f2ff; color: #3175b6; }
+    .platform-icon.y { background: #fff1e2; color: #d47230; }
+    .platform-icon.z { background: #ecf5dd; color: #638d25; }
+    .platform-name { font-weight: 700; font-size: 12px; flex: 1; }
+    .platform small { display: block; color: var(--muted); font-size: 10px; font-weight: 400; margin-top: 3px; }
+    .platform a { color: var(--green); font-size: 11px; text-decoration: none; }
+    .focus { padding: 19px 21px; }
+    .focus-item { padding: 11px 0; border-bottom: 1px solid #eef1f1; }
+    .focus-item:last-child { border: 0; padding-bottom: 0; }
+    .focus-label { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; margin-bottom: 8px; }
+    .meter { height: 6px; border-radius: 10px; background: #eef2ef; overflow: hidden; }
+    .meter i { display: block; height: 100%; background: var(--green); border-radius: inherit; }
+    .steps { padding: 19px 21px; }
+    .step { display: flex; gap: 10px; padding: 8px 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .step b { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: #eef5ee; color: var(--green); font-size: 10px; flex: 0 0 auto; }
+    .step.done { color: var(--ink); }
+    .step.done b { background: var(--lime); color: var(--green-deep); }
+    .toast { position: fixed; bottom: 22px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; background: #163e38; color: #fff; padding: 12px 17px; border-radius: 9px; font-size: 12px; transition: .25s; box-shadow: var(--shadow); }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(10,32,31,.33); display: none; place-items: center; padding: 20px; z-index: 3; }
+    .modal-backdrop.show { display: grid; }
+    .modal { width: min(540px, 100%); background: #fff; border-radius: 16px; box-shadow: 0 24px 70px rgba(0,0,0,.2); padding: 22px; }
+    .modal h3 { margin: 0 0 6px; font-size: 18px; }
+    .modal p { color: var(--muted); font-size: 12px; margin: 0 0 17px; line-height: 1.6; }
+    .modal label { display: block; font-size: 11px; color: var(--muted); margin: 12px 0 6px; }
+    .modal input, .modal select, .modal textarea { width: 100%; padding: 10px; border: 1px solid #dfe7e7; border-radius: 8px; resize: vertical; outline: none; font-size: 12px; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+    .secondary { border: 1px solid #dfe7e7; background: #fff; color: var(--muted); border-radius: 8px; padding: 10px 13px; font-size: 12px; }
+    @media (max-width: 980px) { .shell { grid-template-columns: 78px 1fr; } .brand { justify-content: center; padding-left: 0; padding-right: 0; } .brand > div:last-child, .nav-label, nav button span, .sidebar-note, .sync span { display: none; } .sidebar { padding: 22px 12px; } nav button { justify-content: center; padding: 12px 8px; } .sidebar-bottom { padding-left: 3px; padding-right: 3px; } main { padding: 25px 22px 40px; } }
+    @media (max-width: 720px) { .topbar { display: block; } .top-actions { margin-top: 17px; justify-content: space-between; } .stats { grid-template-columns: repeat(2, 1fr); } .workspace { grid-template-columns: 1fr; } .panel-head { align-items: start; } .source-tabs { flex-wrap: wrap; } h1 { font-size: 26px; } }
+    @media (max-width: 480px) { .shell { display: block; } .sidebar { position: sticky; top: 0; z-index: 2; height: 62px; padding: 12px 15px; flex-direction: row; align-items: center; } .brand { padding: 0; } .brand > div:last-child { display: block; } nav { margin-left: auto; display: flex; } nav button { padding: 9px; } nav button.active { box-shadow: none; } .sidebar-bottom { display: none; } main { padding: 22px 14px 35px; } .lead { grid-template-columns: 6px 1fr; } .lead-side { grid-column: 2; text-align: left; display: flex; gap: 12px; align-items: center; } .deadline { margin-top: 0; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">疆</div><div><strong>新疆投标雷达</strong><small>建设项目情报工作台</small></div></div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav>
+        <button class="active" data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 13h6V4H4v9Zm10 7h6v-9h-6v9ZM4 20h6v-3H4v3Zm10-12h6V4h-6v4Z"/></svg><span>今日看板</span></button>
+        <button data-view="leads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 18.5v-13ZM8 7h8M8 11h8M8 15h5"/></svg><span>线索池</span></button>
+        <button data-view="keywords"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 4.5 4.5M8 10.8h5.6M10.8 8v5.6"/></svg><span>关键词策略</span></button>
+        <button data-view="process"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3v4M17 3v4M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/></svg><span>跟进流程</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="sync"><i class="dot"></i><span>工作台已就绪</span></div><p class="sidebar-note">三平台入口集中管理<br>每日 09:00 例行检索</p></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div><div class="eyebrow">XINJIANG BID INTELLIGENCE</div><h1>今日投标情报</h1><p class="subtitle">抓住本地项目窗口，把每条线索推进到下一步。</p></div>
+        <div class="top-actions"><div class="date-pill">2026 年 10 月 10 日 · 周六</div><button class="primary" id="refreshBtn">↻ 更新线索</button></div>
+      </header>
+      <section class="stats">
+        <div class="stat"><div class="label">今日新线索</div><div class="number" id="statNew">18</div><div class="delta">↑ 较昨日 +4 条</div></div>
+        <div class="stat"><div class="label">重点关注</div><div class="number">06</div><div class="delta">高匹配 · 建筑/装修</div></div>
+        <div class="stat"><div class="label">3 日内截止</div><div class="number">04</div><div class="delta" style="color:var(--orange)">请优先核实资质</div></div>
+        <div class="stat"><div class="label">本周已推进</div><div class="number">12</div><div class="delta">↑ 环比 +20%</div></div>
+      </section>
+      <div class="workspace">
+        <section class="panel">
+          <div class="panel-head"><div><h2>重点线索池</h2><p>按匹配度、截止时间和区域优先级排序</p></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end"><div class="source-tabs"><button class="active" data-source="all">全部 18</button><button data-source="千里马">千里马</button><button data-source="乙方宝">乙方宝</button><button data-source="政采云">政采云</button></div><button class="primary" id="addLead" style="padding:8px 10px">＋ 新增</button></div></div>
+          <div class="filterbar"><input id="search" placeholder="搜索项目名称、业主单位、关键词…" /><select id="region"><option value="all">全部区域</option><option>乌鲁木齐</option><option>哈密</option><option>喀什</option></select><select id="category"><option value="all">全部专业</option><option>建筑施工</option><option>装修装饰</option><option>设计服务</option></select><select id="status"><option value="all">全部状态</option><option>待研判</option><option>跟进中</option><option>已收藏</option></select></div>
+          <div class="leads" id="leads"></div>
+        </section>
+        <aside class="right-col">
+          <section class="brief"><div class="mini-label">DAILY BRIEF</div><h3>今天先做三件事</h3><p>先核实 2 个装修项目资质要求，再联系 1 个设计服务业主，下午统一归档公告附件。</p><div class="brief-row"><span>完成度</span><strong>62%</strong><span>剩余 5 项</span></div></section>
+          <section class="panel platforms"><h3>三大平台入口</h3><div class="platform"><div class="platform-icon q">千</div><div class="platform-name">千里马<small>VIP · 全国招采情报</small></div><a href="https://vip.qianlima.com/" target="_blank" rel="noreferrer">打开 ↗</a></div><div class="platform"><div class="platform-icon y">乙</div><div class="platform-name">乙方宝<small>招投标与采购信息</small></div><a href="https://www.yfbzb.com/" target="_blank" rel="noreferrer">打开 ↗</a></div><div class="platform"><div class="platform-icon z">政</div><div class="platform-name">政采云<small>政府采购交易平台</small></div><a href="https://www.zcygov.cn/" target="_blank" rel="noreferrer">打开 ↗</a></div></section>
+          <section class="panel focus"><h3>区域关注度</h3><div class="focus-item"><div class="focus-label"><span>乌鲁木齐</span><span>48%</span></div><div class="meter"><i style="width:48%"></i></div></div><div class="focus-item"><div class="focus-label"><span>喀什</span><span>31%</span></div><div class="meter"><i style="width:31%;background:#6e9d80"></i></div></div><div class="focus-item"><div class="focus-label"><span>哈密</span><span>21%</span></div><div class="meter"><i style="width:21%;background:#b7d47a"></i></div></div></section>
+          <section class="panel steps"><h3>标准跟进节奏</h3><div class="step done"><b>1</b><span>发现：三平台检索 + 关键词初筛</span></div><div class="step done"><b>2</b><span>研判：资质、预算、工期、地域</span></div><div class="step"><b>3</b><span>推进：领取文件 / 联系业主 / 报名</span></div><div class="step"><b>4</b><span>复盘：归档结果，沉淀客户画像</span></div></section>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+  <div class="modal-backdrop" id="modalBackdrop"><div class="modal"><h3>新增投标线索</h3><p>先记录，再研判。这里保存的是团队的跟进台账，不会自动代替平台报名或提交投标文件。</p><label>项目名称</label><input id="newTitle" placeholder="例如：喀什市某单位办公楼装修项目" /><label>区域 / 专业</label><div style="display:flex;gap:8px"><select id="newRegion" style="flex:1"><option>乌鲁木齐</option><option>哈密</option><option>喀什</option></select><select id="newCategory" style="flex:1"><option>建筑施工</option><option>装修装饰</option><option>设计服务</option></select></div><label>备注</label><textarea id="newNote" rows="3" placeholder="记录来源、联系人、截止时间或下一步…"></textarea><div class="modal-actions"><button class="secondary" id="closeModal">取消</button><button class="primary" id="saveLead">保存线索</button></div></div></div>
+  <script>
+    const leads = [
+      {title:'哈密市伊州区老旧小区改造（一期）施工项目', region:'哈密', category:'建筑施工', source:'千里马', days:2, status:'待研判', priority:'high', meta:'住建局 · 公开招标 · 预算待核实'},
+      {title:'喀什经济开发区企业服务中心室内装修设计', region:'喀什', category:'设计服务', source:'乙方宝', days:3, status:'跟进中', priority:'high', meta:'管委会 · 方案设计 · 需本地团队'},
+      {title:'乌鲁木齐市某职业院校实训楼建设项目', region:'乌鲁木齐', category:'建筑施工', source:'政采云', days:6, status:'已收藏', priority:'normal', meta:'教育系统 · 工程总承包 · 资格预审'},
+      {title:'乌鲁木齐高新区办公空间装修改造工程', region:'乌鲁木齐', category:'装修装饰', source:'千里马', days:8, status:'待研判', priority:'normal', meta:'国企 · 装饰装修 · 现场踏勘'},
+      {title:'哈密市公共文化中心建筑方案及初步设计', region:'哈密', category:'设计服务', source:'政采云', days:10, status:'跟进中', priority:'normal', meta:'文旅系统 · 建筑设计 · 评分制'},
+      {title:'喀什市东城区市政道路及配套管网项目', region:'喀什', category:'建筑施工', source:'乙方宝', days:12, status:'待研判', priority:'normal', meta:'城建项目 · 市政施工 · 联合体可选'}
+    ];
+    let currentSource = 'all';
+    const $ = id => document.getElementById(id);
+    function render() {
+      const q = $('search').value.trim().toLowerCase(), region = $('region').value, category = $('category').value, status = $('status').value;
+      const filtered = leads.filter(x => (!q || (x.title+x.meta+x.region+x.category).toLowerCase().includes(q)) && (region==='all'||x.region===region) && (category==='all'||x.category===category) && (status==='all'||x.status===status) && (currentSource==='all'||x.source===currentSource));
+      $('leads').innerHTML = filtered.length ? filtered.map((x,i)=>`<article class="lead"><div class="lead-bar ${x.priority==='high'?'high':''}"></div><div><p class="lead-title">${x.title}</p><div class="lead-meta"><span class="tag green">${x.region}</span><span class="tag">${x.category}</span><span>${x.meta}</span></div></div><div class="lead-side"><div class="source">${x.source}</div><div class="deadline"><strong>${x.days}</strong>天截止</div></div></article>`).join('') : '<div class="empty">没有匹配的线索，试试放宽筛选条件。</div>';
+    }
+    function toast(msg) { $('toast').textContent = msg; $('toast').classList.add('show'); setTimeout(()=>$('toast').classList.remove('show'), 2400); }
+    document.querySelectorAll('.filterbar input, .filterbar select').forEach(el => el.addEventListener('input', render));
+    document.querySelectorAll('[data-source]').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('[data-source]').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentSource=btn.dataset.source; render(); }));
+    $('refreshBtn').addEventListener('click', () => { $('statNew').textContent = '19'; toast('线索已刷新：新增 1 条待研判线索'); });
+    document.querySelectorAll('nav button').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); const labels={dashboard:'今日看板',leads:'线索池',keywords:'关键词策略',process:'跟进流程'}; toast(labels[btn.dataset.view]+'模块已就绪，当前为演示版'); }));
+    $('closeModal').addEventListener('click', () => $('modalBackdrop').classList.remove('show'));
+    $('addLead').addEventListener('click', () => $('modalBackdrop').classList.add('show'));
+    $('saveLead').addEventListener('click', () => { const title=$('newTitle').value.trim(); if(!title){ toast('请先填写项目名称'); return; } leads.unshift({title,region:$('newRegion').value,category:$('newCategory').value,source:'手工录入',days:30,status:'待研判',priority:'normal',meta:$('newNote').value.trim()||'团队手工录入 · 待补充'}); $('modalBackdrop').classList.remove('show'); $('newTitle').value=''; $('newNote').value=''; render(); toast('线索已加入今日池'); });
+    document.addEventListener('keydown', e => { if(e.key==='Escape') $('modalBackdrop').classList.remove('show'); });
+    // 侧边栏动作：简版演示站先用交互提示，后续可接入持久化数据库与授权数据源。
+    document.querySelectorAll('nav button[data-view="leads"]').forEach(btn => btn.addEventListener('dblclick', ()=>$('modalBackdrop').classList.add('show')));
+    render();
+  </script>
+</body>
+</html>
